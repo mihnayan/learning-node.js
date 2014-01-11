@@ -22,7 +22,7 @@
 
 	exports.run = start;
 
-то в модуль `index.js` следовало бы изменить следующим образом:
+то модуль `index.js` следовало бы изменить следующим образом:
 
 	//index.js
 	var server = require("./server");
