@@ -1,32 +1,20 @@
 var querystring = require("querystring");
+var simpleView = require("./simpleView");
 
 function start (response, postData) {
     console.log("Request handler 'start' was called.");
-    
-    // TODO: Слишком не красиво выглядит, разобраться, как лучше отделять представление от логики
-    var content = '<html>' +
-        '<head>' +
-        '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' +
-        '</head>' +
-        '<body>' +
-        '<form action="/upload" method="post">' +
-        '<textarea name="text" rows="20" cols="60"></textarea>' +
-        '<input type="submit" value="Submit text" />' +
-        '</form>' +
-        '</body>' +
-        '</html>';
 
     response.writeHead(200, {"Content-Type": "text/html"});
-    response.write(content);
+    response.write(simpleView.startView());
     response.end();
 }
 
 function upload (response, postData) {
     console.log("Request handler 'upload' was called.");
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.write("Hello from Upload handler! ;-)");
-    response.write("You've sent: " + 
-        querystring.parse(postData).text);
+    
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write(simpleView.uploadView({
+        sent_text: querystring.parse(postData).text}));
     response.end();
 }
 
