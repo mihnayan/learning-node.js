@@ -14,9 +14,21 @@ function upload (response, postData) {
     
     response.writeHead(200, {"Content-Type": "text/html"});
     response.write(simpleView.uploadView({
-        sent_text: querystring.parse(postData).text}));
+        sent_text: querystring.parse(postData).text
+    }));
+    response.end();
+}
+
+function error404 (response, postData) {
+    console.log("No request handler found for " + postData + "!");
+
+    response.writeHead(404, {"Content-Type" : "text/html"});
+    response.write(simpleView.error404View({
+        requested_page: postData
+    }));
     response.end();
 }
 
 exports.start = start;
 exports.upload = upload;
+exports.error404 = error404;

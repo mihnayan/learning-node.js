@@ -28,8 +28,23 @@ function uploadView (a_params) {
     });
 }
 
+function error404View (a_params) {
+    var params = applyParams(a_params, {requested_page: 'bla bla'});
+
+    return jade.renderFile('jade_tmpl/views/error404.jade',
+        {
+            pretty: true,
+            page: params.requested_page,
+        },
+        function (err, html) {
+            if (err) throw err;
+            return html;
+        });
+}
+
 exports.startView = startView;
 exports.uploadView = uploadView;
+exports.error404View = error404View;
 
 function applyParams (a_params, a_defaults) {
     var params = a_params || {};
