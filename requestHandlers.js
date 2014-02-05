@@ -19,6 +19,14 @@ function upload (response, postData) {
     response.end();
 }
 
+function inputImg (response, postData) {
+    console.log("Request handler 'inputimg' was called.");
+
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write(simpleView.inputImgView());
+    response.end();
+}
+
 function error404 (response, postData) {
     console.log("No request handler found for " + postData + "!");
 
@@ -31,4 +39,5 @@ function error404 (response, postData) {
 
 exports.start = start;
 exports.upload = upload;
+exports.inputImg = inputImg;
 exports.error404 = error404;

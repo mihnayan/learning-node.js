@@ -28,6 +28,20 @@ function uploadView (a_params) {
     });
 }
 
+function inputImgView (a_params) {
+
+    return jade.renderFile('jade_tmpl/views/inputimg.jade',
+        {
+            pretty: true,
+            form_action: "/uploadimg",
+            submit_text: "Upload file"
+        },
+        function (err, html) {
+            if (err) throw err;
+            return html;
+        });
+}
+
 function error404View (a_params) {
     var params = applyParams(a_params, {requested_page: 'bla bla'});
 
@@ -44,6 +58,7 @@ function error404View (a_params) {
 
 exports.startView = startView;
 exports.uploadView = uploadView;
+exports.inputImgView = inputImgView;
 exports.error404View = error404View;
 
 function applyParams (a_params, a_defaults) {
