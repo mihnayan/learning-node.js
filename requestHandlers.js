@@ -1,7 +1,7 @@
 var querystring = require("querystring");
 var simpleView = require("./simpleView");
 
-function start (response, postData) {
+function start (response, request) {
     console.log("Request handler 'start' was called.");
 
     response.writeHead(200, {"Content-Type": "text/html"});
@@ -9,17 +9,27 @@ function start (response, postData) {
     response.end();
 }
 
-function upload (response, postData) {
+function upload (response, request) {
     console.log("Request handler 'upload' was called.");
+
+    request.setEncoding("utf8");
+    var postData = '';
+
+    request.addListener("data", function (postDataChunk) {
+        postData += postDataChunk;
+        console.log("Received POST data chunk '" + postDataChunk + "'.");
+    });
     
-    response.writeHead(200, {"Content-Type": "text/html"});
-    response.write(simpleView.uploadView({
-        sent_text: querystring.parse(postData).text
-    }));
-    response.end();
+    request.addListener("end", function () {
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.write(simpleView.uploadView({
+            sent_text: querystring.parse(postData).text
+        }));
+        response.end();
+    });
 }
 
-function inputImg (response, postData) {
+function inputImg (response, request) {
     console.log("Request handler 'inputimg' was called.");
 
     response.writeHead(200, {"Content-Type": "text/html"});
@@ -27,12 +37,12 @@ function inputImg (response, postData) {
     response.end();
 }
 
-function error404 (response, postData) {
-    console.log("No request handler found for " + postData + "!");
+function error404 (response, pathname) {
+    console.log("No request handler found for " + pathname + "!");
 
     response.writeHead(404, {"Content-Type" : "text/html"});
     response.write(simpleView.error404View({
-        requested_page: postData
+        requested_page: pathname,
     }));
     response.end();
 }
