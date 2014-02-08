@@ -90,3 +90,15 @@
 Однажды понадобилось установить кодировку символов отличную от умалчиваемой (в методе `response.write()`).
 
 [Вот ссылка на список кодировок](https://github.com/joyent/node/blob/5a5a98d0d8281f6901b7e9dac285d59ab3e39b95/lib/buffer.js#L126), которая найдена в [ответе на Stackoverflow.com](http://stackoverflow.com/questions/14551608/cant-find-encodings-for-node-js).
+
+##Сторонние компоненты
+
+###formidable
+
+GitHub: [https://github.com/felixge/node-formidable](https://github.com/felixge/node-formidable)
+
+Решение проблемы с каталогом загрузки: [http://stackoverflow.com/a/14061432/2719391](http://stackoverflow.com/a/14061432/2719391)
+
+**Некоторые особенности:**
+
+* В Windows каталог загрузки должен существовать, иначе при загрузке вываливается ошибка.

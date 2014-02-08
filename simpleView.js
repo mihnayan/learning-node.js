@@ -42,8 +42,22 @@ function inputImgView (a_params) {
         });
 }
 
+function uploadedImgView (a_params) {
+    var params = applyParams(a_params, {img_path: "#"});
+
+    return jade.renderFile('jade_tmpl/views/uploadedimg.jade',
+        {
+            pretty: true,
+            img_path: params.img_path
+        },
+        function (err, html) {
+            if (err) throw err;
+            return html;
+        });
+}
+
 function error404View (a_params) {
-    var params = applyParams(a_params, {requested_page: 'bla bla'});
+    var params = applyParams(a_params, {requested_page: ''});
 
     return jade.renderFile('jade_tmpl/views/error404.jade',
         {
@@ -59,6 +73,7 @@ function error404View (a_params) {
 exports.startView = startView;
 exports.uploadView = uploadView;
 exports.inputImgView = inputImgView;
+exports.uploadedImgView = uploadedImgView;
 exports.error404View = error404View;
 
 function applyParams (a_params, a_defaults) {
