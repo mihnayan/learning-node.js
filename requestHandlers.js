@@ -49,12 +49,8 @@ function uploadImg (response, request, path_parts) {
     form.uploadDir = __dirname + "/images";
     form.keepExtensions = true;
     form.on('file', function (name, file) {
-        console.log("In file event");
-        console.log('name:');
-        console.log(name);
-        console.log('file: ');
-        console.log(file);
-        // throw 'onFile logging';
+        if (!isValidExtension(file.name))
+            throw 'extension ' + path.extname(file.name) + ' is not valid';
     });
 
     console.log("about to parse form");
@@ -105,7 +101,7 @@ function error404 (response, pathname) {
 
 var isValidExtension = function (fileName) {
     var validExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-    var ext = path.extname(filename);
+    var ext = path.extname(fileName).substring(1);
     return validExtensions.indexOf(ext) !== -1;
 };
 
