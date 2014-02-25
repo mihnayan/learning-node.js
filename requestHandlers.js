@@ -49,27 +49,32 @@ function uploadImg (response, request, path_parts) {
     form.uploadDir = __dirname + "/images";
     form.keepExtensions = true;
     form.on('file', function (name, file) {
-        if (!isValidExtension(file.name))
-            throw 'extension ' + path.extname(file.name) + ' is not valid';
+        if (!isValidExtension(file.name)) {
+            fs.unlink(file.path, function (err) {
+                if (err) throw err;
+                console.log("file unlinked");
+                error404(response, file.name);
+            });
+        } else {
+            // extract file name was generated formidable
+            var imgFile = path.basename(file.path);
+
+            response.writeHead(200, {"Content-Type": "text/html"});
+            response.write(simpleView.uploadedImgView({
+                img_path: "/images/" + imgFile,
+            }));
+            response.end();
+        }
     });
 
     console.log("about to parse form");
     form.parse(request, function (error, fields, files) {
         if (error) {
-            console.log(error.message);
+            console.log("Attention! " + error.message);
             throw error;
         }
         console.log("parsing form done");
         console.log(files);
-
-        // extract file name was generated formidable
-        var imgFile = path.basename(files.upload.path);
-
-        response.writeHead(200, {"Content-Type": "text/html"});
-        response.write(simpleView.uploadedImgView({
-            img_path: "/images/" + imgFile,
-        }));
-        response.end();
     })
 }
 
