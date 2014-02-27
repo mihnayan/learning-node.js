@@ -3,5 +3,7 @@ mixin index
     html
         include header
     body
+        if status
+            div#status-bar(class = status)= status_text
         #content
             block

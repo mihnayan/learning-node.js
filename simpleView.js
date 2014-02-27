@@ -48,7 +48,9 @@ function uploadedImgView (a_params) {
     return jade.renderFile('jade_tmpl/views/uploadedimg.jade',
         {
             pretty: true,
-            img_path: params.img_path
+            img_path: params.img_path,
+            status: 'error',
+            status_text: 'something error!'
         },
         function (err, html) {
             if (err) throw err;

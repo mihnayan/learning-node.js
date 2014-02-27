@@ -42,40 +42,40 @@ function inputImg (response, request) {
 
 function uploadImg (response, request, path_parts) {
 
-
     console.log("Request handler 'uploadimg' was called.");
 
     var form = new formidable.IncomingForm();
     form.uploadDir = __dirname + "/images";
     form.keepExtensions = true;
-    form.on('file', function (name, file) {
-        if (!isValidExtension(file.name)) {
-            fs.unlink(file.path, function (err) {
-                if (err) throw err;
-                console.log("file unlinked");
-                error404(response, file.name);
-            });
-        } else {
-            // extract file name was generated formidable
-            var imgFile = path.basename(file.path);
 
-            response.writeHead(200, {"Content-Type": "text/html"});
-            response.write(simpleView.uploadedImgView({
-                img_path: "/images/" + imgFile,
-            }));
-            response.end();
-        }
-    });
+    response.writeHead(200, {"Content-Type": "text/html"});
 
     console.log("about to parse form");
     form.parse(request, function (error, fields, files) {
         if (error) {
-            console.log("Attention! " + error.message);
             throw error;
         }
+
+        if (isValidExtension(files.upload.name)) {
+            // extract file name was generated formidable
+            var imgFile = path.basename(files.upload.path);
+
+            response.end(simpleView.uploadedImgView({
+                img_path: "/images/" + imgFile,
+            }));
+
+        } else {
+            fs.unlink(files.upload.path, function(err) {
+                if (err) throw err;
+            });
+            response.end(simpleView.uploadedImgView({
+                img_path: "/images/" + imgFile,
+                status: "none",
+            }));
+        }
+
         console.log("parsing form done");
-        console.log(files);
-    })
+    });
 }
 
 exports.getImage = function (response, request, path_parts) {
