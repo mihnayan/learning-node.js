@@ -68,9 +68,9 @@ function uploadImg (response, request, path_parts) {
             fs.unlink(files.upload.path, function(err) {
                 if (err) throw err;
             });
-            response.end(simpleView.uploadedImgView({
-                img_path: "/images/" + imgFile,
-                status: "none",
+            response.end(simpleView.inputImgView({
+                status: "error",
+                status_text: "Этот тип файла не поддерживается для загрузки!"
             }));
         }
 

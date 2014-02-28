@@ -29,13 +29,19 @@ function uploadView (a_params) {
 }
 
 function inputImgView (a_params) {
-
-    return jade.renderFile('jade_tmpl/views/inputimg.jade',
-        {
+    var jadeParams = {
             pretty: true,
             form_action: "/uploadimg",
             submit_text: "Upload file"
-        },
+        };
+    console.log("a_params: ");
+    console.log(a_params);
+    var params = applyParams(a_params, jadeParams);
+
+    console.log("params: ");
+    console.log(params);
+
+    return jade.renderFile('jade_tmpl/views/inputimg.jade', params,
         function (err, html) {
             if (err) throw err;
             return html;
