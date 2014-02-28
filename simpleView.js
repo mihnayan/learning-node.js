@@ -34,12 +34,7 @@ function inputImgView (a_params) {
             form_action: "/uploadimg",
             submit_text: "Upload file"
         };
-    console.log("a_params: ");
-    console.log(a_params);
     var params = applyParams(a_params, jadeParams);
-
-    console.log("params: ");
-    console.log(params);
 
     return jade.renderFile('jade_tmpl/views/inputimg.jade', params,
         function (err, html) {
@@ -88,6 +83,6 @@ function applyParams (a_params, a_defaults) {
     var params = a_params || {};
     var defaults = a_defaults || {};
     for (key in params)
-        if (key in defaults) defaults[key] = params[key];
+        defaults[key] = params[key];
     return defaults;
 }
